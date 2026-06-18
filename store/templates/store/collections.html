@@ -1,0 +1,34 @@
+{% extends "store/base.html" %}
+{% block title %}Anisa The Brand | Collections{% endblock title %}
+
+{% block body %}
+  <main>
+    <section class="py-12">
+      <div class="pt-20 sm:pt-32 pb-16 sm:pb-24 px-6 max-w-7xl mx-auto flex flex-col items-center text-center gap-8 sm:gap-12">
+        <h1 class="font-serif text-5xl sm:text-7xl font-light tracking-tighter leading-[0.85] mb-1">Collections</h1>
+        <p class="max-w-[45ch] text-gray-500 mx-auto text-sm md:text-base font-light text-muted-foreground leading-relaxed">Curated worlds. Each collection tells a story of form, fabric, and intention.</p>
+      </div>
+      <div class="px-6 md:px-12 pb-24 sm:pb-40 max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+    
+        {% for item in collections %}
+          <a href="{% url 'collection' item.category%}">
+            <div class="flex flex-col bg-secondary overflow-hidden mb-4 sm:mb-6 group cursor-pointer">
+            <img
+                src="https://d17a17kld06uk8.cloudfront.net/products/AVKHULC/4TI1P6YL-default.jpg"
+                alt="Anisa model outfit front"
+                loading="lazy"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1000ms] ease-out"
+            />
+            <h2 class="font-serif text-xl pt-5 sm:text-2xl font-light tracking-tight group-hover:text-muted-foreground transition-colors duration-500">
+                {{item.category | capfirst}}
+            </h2>
+            <span class="text-xs text-muted-foreground/60 mt-1 font-serif italic">
+                {{item.slogan | capfirst}}
+            </span>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </section>
+    </main>
+{% endblock body %}

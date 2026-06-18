@@ -1,0 +1,127 @@
+{% extends "store/base.html" %}
+
+{% block title %}Anisa The Brand | Structural Softness{% endblock %}
+{% load static %}
+
+
+{% block more_styles %}
+  <style>
+    /* Custom styles for the contact page */
+    input[type="number"] {
+      border: 1px solid #e5e7eb; /* Tailwind's gray-300 */
+      padding: 0.5rem;
+      /* border-radius: .1rem; */
+      background-color: transparent;
+      transition: border-color 0.3s ease;
+    }
+    input[type="number"]:focus {
+      outline: none;
+      border-top: 0px solid transparent;
+      border-right: 0px solid transparent;
+      border-left: 0px solid transparent;
+      border-bottom: 1px solid #111827; /* Tailwind's gray-900 */
+    }
+  </style>
+{% endblock more_styles %}
+
+{% block body %}
+      <main class="flex-1 max-w-screen-2xl mx-auto w-full px-6 md:px-12 py-12 sm:py-20">
+        <a
+          href="{% url 'shop' %}"
+          class="text-[10px] uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors duration-500"
+        >
+          ← Back to Shop
+        </a>
+
+        {% for item in product %}
+            {% if not item.is_active %}
+                <div class="cart-ctn flex mt-10 w-full h-[23rem] justify-center items-center flex-col">
+                    <h1 class="text-[50px] uppercase text-bold tracking-[0.2em] text-muted-foreground text-center">Oops, seems you're lost🥹!</h1>
+                    <div class="space-y-6 p-5">
+                        <button
+                        type="button"
+                        class="rounded-none h-12 px-10 text-[10px] uppercase underline tracking-[0.2em] font-normal"
+                        >
+                        <a href="{% url 'shop' %}">Continue Shopping</a>
+                        </button>
+                    </div>
+                </div>
+            {% endif %}
+            {% if item.is_active %}
+                <div class="grid cart-ctn grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 mt-10">
+                <div class="bg-secondary aspect-[3/4] overflow-hidden">
+                    <img
+                    src={{item.image}}
+                    alt="photo of {{item.name}} dress"
+                    class="w-full h-full object-cover"
+                    />
+                </div>
+
+                <div class="flex flex-col justify-center">
+                    <p class="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mb-4">
+                    Anisa The Brand
+                    </p>
+                    <h1 class="font-serif text-4xl sm:text-5xl font-light tracking-tighter leading-[0.9]">
+                    {{item.name|title}}
+                    </h1>
+                    <!-- <p class="font-serif italic text-sm text-muted-foreground mt-3">Black</p> -->
+                    <p class="text-lg font-light mt-8 tabular-nums">₦{{item.formatted_price}}</p>
+
+                    {% if item.description %}
+                        <p class="text-sm font-light leading-relaxed text-muted-foreground mt-8 max-w-[50ch]">
+                            {{item.description | capfirst}}
+                        </p>
+                    {% endif %}
+                    {% if item.is_active and item.quantity != 0 %}
+                        <div class="mt-10 mb-6">
+                        <div class="flex flex-col justify-start gap-2 mb-4">
+                            <span class="text-[10px] uppercase tracking-[0.2em]">Quantity</span>
+                            <input type="number" min="1" value="1" id="qty" class="border rounded-sm py-1 px-2 focus:outline-none w-[3rem]">
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-[10px] uppercase tracking-[0.2em]">Size</span>
+                        </div>
+                        <div class="flex gap-2">
+                
+                            {% for size in sizes %}
+                                <button
+                                    type="button"
+                                    class="h-10 w-10 size border text-xs tracking-widest transition-colors duration-300 bg-foreground text-background border-foreground hover:border-gray-700 text-black"
+                                >
+                                {{size | upper}}
+                                </button>
+                            {% endfor %}
+                        </div>
+                        </div>
+                        <button
+                        type="button"
+                        id="add-to-cart"
+                        data-product-id={{item.id}}
+                        data-product-image={{item.image}}
+                        data-product-name={{item.name}}
+                        data-product-price={{item.price}}
+                        class="px-6 py-6 mb-2 bg-foreground uppercase text-white text-sm font-light rounded-sm bg-gray-800 transition-colors duration-300"
+                        >
+                        Add to Cart
+                        </button>
+                    {% endif %}
+                    {% if not item.is_active or item.quantity == 0 %}
+                        <h2
+                        class="px-6 py-6 mb-2 mt-10 text-center text-red-400 bg-foreground uppercase text-bold text-sm font-light rounded-sm bg-gray-800 transition-colors duration-300"
+                        >
+                            Sold out
+                        </h2>
+                    {% endif %}
+                    <div class="w-full h-1/2">
+                        <p class="text-[10px] size-err uppercase tracking-[0.2em] text-center text-red-800 mt-5"></p>
+                    </div>
+                </div>
+                </div>    
+            {% endif %}
+        {% endfor %}
+      </main>
+{% endblock body %}
+
+{% block scripts %}
+  <script type="module" src="{% static '/app/js/details.js' %}"></script>
+{% endblock scripts %}

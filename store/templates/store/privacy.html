@@ -1,0 +1,32 @@
+{% extends "store/base.html" %}
+
+{% block title %}Anisa The Brand | Privacy{% endblock title %}
+
+{% block body %}
+  <main class="flex-1 px-6 md:px-12 py-20 sm:py-28 max-w-3xl mx-auto w-full">
+        <p class="text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-6">Privacy</p>
+        <h1 class="font-serif text-4xl sm:text-5xl font-light tracking-tighter mb-12">Privacy Policy</h1>
+        <div class="space-y-8 text-sm font-light leading-relaxed text-foreground/80">
+          <section class="space-y-3">
+            <h2 class="font-serif text-xl text-foreground">Information We Collect</h2>
+            <p>We collect information you provide directly — name, email, shipping address, and payment details — to fulfill your orders and enhance your experience.</p>
+          </section>
+          <section class="space-y-3">
+            <h2 class="font-serif text-xl text-foreground">How We Use Your Information</h2>
+            <p>Your data is used to process orders, communicate about purchases, and share occasional editorial updates. You may unsubscribe at any time.</p>
+          </section>
+          <section class="space-y-3">
+            <h2 class="font-serif text-xl text-foreground">Cookies</h2>
+            <p>We use cookies to remember your preferences, maintain cart contents, and analyze site performance. You can disable cookies in your browser settings.</p>
+          </section>
+          <section class="space-y-3">
+            <h2 class="font-serif text-xl text-foreground">Third Parties</h2>
+            <p>We never sell your personal information. Trusted partners (payment processors, shipping carriers) receive only the data necessary to perform their service.</p>
+          </section>
+          <section class="space-y-3">
+            <h2 class="font-serif text-xl text-foreground">Your Rights</h2>
+            <p>You may request access, correction, or deletion of your personal data at any time by contacting us <a href="{% url 'contact' %}" class="text-foreground hover:underline text-blue-800 underline">here</a></p>
+          </section>
+        </div>
+    </main>
+{% endblock body %}

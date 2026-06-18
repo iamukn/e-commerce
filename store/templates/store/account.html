@@ -1,0 +1,82 @@
+{% extends "store/base.html" %}
+
+{% block title %}Anisa The Brand | Account{% endblock %}
+{% block more_styles %}
+  <style>
+    /* Custom styles for the contact page */
+    input[type="password"], input[type="email"]{
+      border: 1px solid #e5e7eb; /* Tailwind's gray-300 */
+      padding: 0.5rem;
+      /* border-radius: .1rem; */
+      background-color: transparent;
+      transition: border-color 0.3s ease;
+    }
+    input[type="password"]:focus, input[type="email"]:focus {
+      outline: none;
+      border-top: 0px solid transparent;
+      border-right: 0px solid transparent;
+      border-left: 0px solid transparent;
+      border-bottom: 1px solid #111827; /* Tailwind's gray-900 */
+    }
+  </style>
+{% endblock more_styles %}
+{% block body %}
+    <main class="flex-1 flex items-center justify-center px-6 py-20 sm:py-32">
+        <div class="w-full max-w-sm space-y-8">
+          <div class="text-center">
+            <h1 class="font-serif text-4xl sm:text-5xl font-light tracking-tighter mb-4">
+              Sign In
+            </h1>
+            <p class="text-sm font-light text-muted-foreground">
+              Access your orders, wishlist, and account details.
+            </p>
+          </div>
+
+          <form class="space-y-5" onSubmit="(e) => e.preventDefault()" method="POST">
+            {%csrf_token%}
+            <div class="space-y-2 flex flex-col">
+              <label htmlFor="email" class="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                Email
+              </label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="ukn@example.com"
+                class="rounded-none border-border bg-transparent h-12 text-sm font-light"
+              />
+            </div>
+            <div class="space-y-2 flex flex-col">
+              <label htmlFor="password" class="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                Password
+              </label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="••••••••"
+                class="rounded-none border-border bg-transparent h-12 text-sm font-light"
+              />
+            </div>
+            <button
+              type="submit"
+              class="px-6 py-3 bg-foreground hover:bg-gray-700 text-white text-sm font-light rounded-sm bg-gray-800 transition-colors duration-300 w-full uppercase tracking-[0.2em]"
+            >
+              Sign In
+            </button>
+          </form>
+
+          <p class="text-center text-xs text-muted-foreground font-light">
+            Don't have an account?
+            <a href="#" class="underline underline-offset-4 hover:text-foreground transition-colors duration-500">
+              Create one
+            </a>
+          </p>
+          {% for message in messages %}
+            {% if message.tags == 'warning' %}
+              <p class="text-center p-1 text-xs text-muted-foreground font-light bg-red-300">{{message | upper}}</p>
+            {% endif %}
+          {% endfor %}
+        </div>
+    </main>
+{% endblock body %}

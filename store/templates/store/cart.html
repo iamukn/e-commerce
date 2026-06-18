@@ -1,0 +1,14 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block title %}Anisa The Brand | Cart{% endblock %}
+{% block footer_style %}
+     <footer class="flex flex-col sm:flex-row justify-between items-center py-8 px-4 sm:px-10 text-sm text-gray-500 gap-4 sm:gap-0 mt-[200px]">
+{% endblock footer_style %} 
+{% block body %}
+    <main class="flex-1 flex cart-ctn items-center justify-center px-6 py-20 sm:py-32 mb-50"></main>
+{% endblock body %}
+{% block scripts %}
+  <script type="module" src="{% static '/app/js/cart.js' %}"></script>
+{% endblock scripts %}
+

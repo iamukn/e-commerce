@@ -1,0 +1,51 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% block more_styles %}
+  <style>
+    /* Custom styles for the contact page */
+    input[type="text"], input[type="email"] {
+      border: 1px solid #e5e7eb; /* Tailwind's gray-300 */
+      padding: 0.5rem;
+      /* border-radius: .1rem; */
+      background-color: transparent;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus, input[type="email"]:focus {
+      outline: none;
+      border-top: 0px solid transparent;
+      border-right: 0px solid transparent;
+      border-left: 0px solid transparent;
+      border-bottom: 1px solid #111827; /* Tailwind's gray-900 */
+    }
+  </style>
+{% endblock more_styles %}
+
+{% block title %}Anisa The Brand | Checkout{% endblock title %}
+{% block footer_style %}
+     <footer class="flex flex-col sm:flex-row justify-between items-center py-8 px-4 sm:px-10 text-sm text-gray-500 gap-4 sm:gap-0 mt-[200px]">
+{% endblock footer_style %} 
+{% block body %}
+<div class="checkout-ctn">
+    <main class="flex-1 flex items-center justify-center px-6 py-20 text-center nothing-to-checkout hidden">
+            <div class="space-y-6 p-10">
+                
+                <h1 class="font-serif text-4xl font-light tracking-tighter">Nothing to Checkout</h1>
+                <p class="text-sm font-light text-muted-foreground">
+                Add a piece to your cart to begin checkout.
+                </p>
+                
+                <button
+                type="button"
+                class="rounded-none h-12 px-10 text-[10px] uppercase underline tracking-[0.2em] font-normal"
+                >
+                <a href="{% url 'shop' %}">Continue Shopping</a>
+                </button>
+            </div>
+    </main>
+</div>
+{% endblock body %}
+
+{% block scripts %}
+  <script type="module" src="{% static '/app/js/payment.js' %}"></script>
+  <script type="module" src="{% static '/app/js/checkout.js' %}"></script>
+{% endblock scripts %}
