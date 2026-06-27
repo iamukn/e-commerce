@@ -51,7 +51,7 @@
                 <div class="grid cart-ctn grid-cols-1 md:grid-cols-2 gap-10 md:gap-20 mt-10">
                 <div class="bg-secondary aspect-[3/4] overflow-hidden">
                     <img
-                    src={{item.image}}
+                    src={{item.image1_url}}
                     alt="photo of {{item.name}} dress"
                     class="w-full h-full object-cover"
                     />
@@ -97,7 +97,7 @@
                         type="button"
                         id="add-to-cart"
                         data-product-id={{item.id}}
-                        data-product-image={{item.image}}
+                        data-product-image={{item.image1_url}}
                         data-product-name={{item.name}}
                         data-product-price={{item.price}}
                         class="px-6 py-6 mb-2 bg-foreground uppercase text-white text-sm font-light rounded-sm bg-gray-800 transition-colors duration-300"

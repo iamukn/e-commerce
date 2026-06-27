@@ -1,0 +1,80 @@
+{% extends "store/base.html" %}
+{% block title %}Anisa The Brand | Dashboard {% endblock title %}
+{% block body %}
+<div class="px-3 py-4">
+<nav class="mb-3">
+    <ul class="flex flex-col sm:flex-row gap-3 sm:gap-8 text-sm uppercase tracking-wider">
+        <li>
+            <a
+                href="#"
+                class="block px-4 py-2 rounded-md hover:bg-gray-100  transition-colors"
+            >
+                Orders
+            </a>
+        </li>
+
+        <li>
+            <a
+                href="{% url 'products' %}"
+                class="block px-4 py-2 border border-blue-400 rounded-md hover:bg-gray-100 transition-colors"
+            >
+                Products
+            </a>
+        </li>
+        <li>
+            <a
+                href="{% url 'logout' %}"
+                class="block px-4 py-2 rounded-md hover:bg-gray-100 transition-colors"
+            >
+                Logout
+            </a> 
+        </li>
+    </ul>
+</nav>
+
+<div class="h-[35rem]">
+  <div class="w-full flex justify-end"> <button class="block mb-1 px-4 py-2 rounded-md border hover:bg-gray-100 transition-colors"><a href="{% url 'add_products' %}">Add product </a></button></div>
+  <div class="overflow-x-auto">
+  <table class="min-w-[700px] w-full border-collapse border border-gray-300 text-sm">
+  <!-- <table class="w-full border-collapse border border-gray-300"> -->
+    <thead>
+        <tr class="bg-gray-100">
+            <th class="border border-gray-300 px-2 py-2 text-left">Product Name</th>
+            <th class="border border-gray-300 px-2 py-2 text-left">Category</th>
+            <th class="border border-gray-300 px-2 py-2 text-left">Sku</th>
+            <th class="border border-gray-300 px-2 py-2 text-left">Price</th>
+            <th class="border border-gray-300 px-2 py-2 text-left">Qty Available</th>
+            <th class="border border-gray-300 px-2 py-2 text-left">Qty Sold</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in products %}
+            <tr>
+                <td class="border border-gray-300 px-4 py-2">
+                    <a href="{% url 'edit_product' item.id %}" class="text-blue-600">{{ item.name | capfirst }}</a>
+                </td>
+                
+                <td class="border border-gray-300 px-4 py-2">
+                    {{ item.category | capfirst }}
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                    {{ item.sku | upper }}
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                    ₦{{ item.formatted_price }}
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                    {{ item.quantity }}
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                    {{ item.quantity_sold }}
+                </td>
+            </tr>
+        {% endfor %}
+       
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+{% endblock body %}

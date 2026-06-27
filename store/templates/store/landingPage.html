@@ -16,7 +16,7 @@
         {% if item.is_featured_product %}
             <div class="w-1/2 aspect-[3/4] overflow-hidden">
                 <img
-                src={{item.image}}
+                src={{item.image1_url}}
                 alt="photo of {{item.name}} dress"
                 class="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-[2000ms] ease-out"
                 />
@@ -38,7 +38,7 @@
                     <!-- IMAGE WRAPPER CONTROLS SIZE -->
                     <div class="bg-secondary aspect-[4/5] relative overflow-hidden mb-4 sm:mb-6">
                         <img
-                        src={{item.image}}
+                        src={{item.image1_url}}
                         alt="photo of {{item.name}} dress"
                         loading="lazy"
                         class="w-full  h-full object-cover object-center 

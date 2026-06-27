@@ -12,6 +12,10 @@ from .views.v1.collections import CollectionsView
 from .views.v1.collection import CollectionView
 from .views.v1.landing_page import LandingPageView
 from .views.v1.payout import Payout
+from .views.v1.products import ProductsView, DeleteProductView
+from .views.v1.logout import LogoutView
+from .views.v1.add_products import AddProductsView
+from .views.v1.edit_product import EditProductView
 
 urlpatterns = [
     path('', LandingPageView.as_view(), name='landing-page'),
@@ -25,5 +29,10 @@ urlpatterns = [
     path('details/<int:product_id>', DetailsView.as_view(), name='details'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('collection/<str:collection>', CollectionView.as_view(), name='collection'),
-    path('payout/', Payout.as_view(), name='payout')
+    path('payout/', Payout.as_view(), name='payout'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('account/products/', ProductsView.as_view(), name="products"),
+    path('account/products/new/', AddProductsView.as_view(), name='add_products'),
+    path('account/products/delete/<int:product_id>/', DeleteProductView.as_view(), name='delete-product'),
+    path('account/products/edit/<int:id>', EditProductView.as_view(), name='edit_product')
 ]

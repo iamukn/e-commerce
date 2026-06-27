@@ -1,0 +1,196 @@
+{% extends 'store/base.html' %}
+{% block body %}
+
+<div class="max-w-5xl mx-auto px-4 py-10">
+    <h1 class="text-2xl font-light tracking-tight mb-8">
+        Add New Product
+    </h1>
+
+    <form class="grid grid-cols-1 lg:grid-cols-3 gap-8" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- LEFT: PRODUCT INFO -->
+        <div class="lg:col-span-2 space-y-6">
+
+            <!-- Name -->
+            <div>
+                <label class="text-xs uppercase tracking-wider text-gray-500">
+                    Product Name
+                </label>
+                <input type="text"
+                    name="name"
+                    class="w-full mt-2 border border-gray-300 px-4 py-3 focus:outline-none focus:border-black"
+                    placeholder="e.g. Silk Summer Dress">
+            </div>
+
+            <!-- Description -->
+            <div>
+                <label class="text-xs uppercase tracking-wider text-gray-500">
+                    Description
+                </label>
+                <textarea rows="6"
+                    name="description"
+                    class="w-full mt-2 border border-gray-300 px-4 py-3 focus:outline-none focus:border-black"
+                    placeholder="Write product details..."></textarea>
+            </div>
+
+            <!-- Price + Stock -->
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-xs uppercase tracking-wider text-gray-500">
+                        Price (₦)
+                    </label>
+                    <input type="number"
+                        name="price"
+                        class="w-full mt-2 border border-gray-300 px-4 py-3 focus:outline-none focus:border-black">
+                </div>
+
+                <div>
+                    <label class="text-xs uppercase tracking-wider text-gray-500">
+                        Quantity
+                    </label>
+                    <input type="number"
+                        name="quantity"
+                        class="w-full mt-2 border border-gray-300 px-4 py-3 focus:outline-none focus:border-black">
+                </div>
+            </div>
+
+            <!-- Category -->
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                <label class="text-xs uppercase tracking-wider text-gray-500">
+                    Category
+                </label>
+
+                <input type="text"
+                        name="category"
+                        class="w-full mt-2 border border-gray-300 px-4 py-3 focus:outline-none focus:border-black">
+                </div>
+                <div>
+                <label class="text-xs uppercase tracking-wider text-gray-500">
+                    Size
+                </label>
+
+                <input type="text"
+                        name="size"
+                        placeholder="m,s,l,xl"
+                        class="w-full mt-2 border border-gray-300 px-4 py-3 focus:outline-none focus:border-black">
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT: MEDIA + PREVIEW -->
+        <div class="space-y-6">
+
+            <!-- IMAGE PREVIEW -->
+<!-- IMAGE PREVIEWS -->
+            <div class="space-y-3">
+
+                <p class="text-xs uppercase text-gray-500">
+                    Product Images
+                </p>
+
+                <!-- PREVIEW GRID -->
+                <div class="grid grid-cols-3 gap-2">
+
+                    <!-- IMAGE 1 (REQUIRED) -->
+                    <div class="space-y-1">
+                        <div class="aspect-[3/4] bg-gray-100 border overflow-hidden">
+                            <img id="preview1" class="w-full h-full object-cover hidden" />
+                            <p id="placeholder1" class="text-[10px] text-gray-400 flex items-center justify-center h-full">
+                                Main *
+                            </p>
+                        </div>
+                        <input type="file" id="image1" name="image1" accept="image/*" required
+                            class="text-[10px] w-full">
+                    </div>
+
+                    <!-- IMAGE 2 -->
+                    <div class="space-y-1">
+                        <div class="aspect-[3/4] bg-gray-100 border overflow-hidden">
+                            <img id="preview2" class="w-full h-full object-cover hidden" />
+                            <p id="placeholder2" class="text-[10px] text-gray-400 flex items-center justify-center h-full">
+                                Optional
+                            </p>
+                        </div>
+                        <input type="file" id="image2" name="image2" accept="image/*"
+                            class="text-[10px] w-full">
+                    </div>
+
+                    <!-- IMAGE 3 -->
+                    <div class="space-y-1">
+                        <div class="aspect-[3/4] bg-gray-100 border overflow-hidden">
+                            <img id="preview3" class="w-full h-full object-cover hidden" />
+                            <p id="placeholder3" class="text-[10px] text-gray-400 flex items-center justify-center h-full">
+                                Optional
+                            </p>
+                        </div>
+                        <input type="file" id="image3" name="image3" accept="image/*"
+                            class="text-[10px] w-full">
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- STATUS -->
+            <div>
+                <label class="text-xs uppercase tracking-wider text-gray-500">
+                    Status
+                </label>
+
+                <select name="status"
+                    class="w-full mt-2 border border-gray-300 px-4 py-3">
+                    <option value="active">Active</option>
+                    <option value="draft">Draft</option>
+                </select>
+            </div>
+
+            <!-- SUBMIT -->
+            <button type="submit"
+                class="w-full bg-black text-white py-3 text-sm uppercase tracking-wider hover:bg-gray-800 transition">
+                Save Product
+            </button>
+
+            <p class="text-xs text-gray-400 text-center">
+                Product will appear immediately if active
+            </p>
+            {% for message in messages %}
+                <p class="text-xs text-gray-400 text-center">
+                    {{message | capfirst}}
+                </p>
+            {% endfor %}
+        </div>
+
+    </form>
+</div>
+
+<!-- JS: IMAGE PREVIEW -->
+<script>
+function setupPreview(inputId, imgId, placeholderId) {
+    const input = document.getElementById(inputId);
+    const img = document.getElementById(imgId);
+    const placeholder = document.getElementById(placeholderId);
+
+    input.addEventListener("change", function () {
+        const file = this.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            img.src = e.target.result;
+            img.classList.remove("hidden");
+            placeholder.classList.add("hidden");
+        };
+
+        reader.readAsDataURL(file);
+    });
+}
+
+// attach all 3
+setupPreview("image1", "preview1", "placeholder1");
+setupPreview("image2", "preview2", "placeholder2");
+setupPreview("image3", "preview3", "placeholder3");
+</script>
+
+{% endblock body %}

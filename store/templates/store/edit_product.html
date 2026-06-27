@@ -1,0 +1,184 @@
+{% extends 'store/base.html' %}
+{% load static %}
+{% block body %}
+
+<div class="max-w-5xl mx-auto px-4 py-10">
+
+<form class="grid grid-cols-1 lg:grid-cols-3 gap-8" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <!-- LEFT SIDE -->
+    <div class="lg:col-span-2 space-y-6">
+
+        <!-- NAME -->
+        <div>
+            <label class="text-xs uppercase text-gray-500">Product Name</label>
+            <input type="text"
+                name="name"
+                value="{{ product.name | capfirst }}"
+                class="w-full mt-2 border px-4 py-3 focus:outline-none focus:border-black">
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div>
+            <label class="text-xs uppercase text-gray-500">Description</label>
+            <textarea name="description"
+                class="w-full mt-2 border px-4 py-3 h-40 focus:outline-none focus:border-black">{{ product.description | capfirst }}</textarea>
+        </div>
+
+        <!-- PRICE + STOCK -->
+        <div class="grid grid-cols-2 gap-4">
+
+            <div>
+                <label class="text-xs uppercase text-gray-500">Price</label>
+                <input type="number"
+                    name="price"
+                    value="{{ product.price}}"
+                    class="w-full mt-2 border px-4 py-3 focus:outline-none focus:border-black">
+            </div>
+
+            <div>
+                <label class="text-xs uppercase text-gray-500">Quantity</label>
+                <input type="number"
+                    name="quantity"
+                    value="{{ product.quantity }}"
+                    class="w-full mt-2 border px-4 py-3 focus:outline-none focus:border-black">
+            </div>
+
+        </div>
+
+        <!-- CATEGORY -->
+        <div>
+            <label class="text-xs uppercase text-gray-500">Category</label>
+            <input type="text"
+                name="category"
+                value="{{ product.category | capfirst }}"
+                class="w-full mt-2 border px-4 py-3 focus:outline-none focus:border-black">
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="space-y-6">
+
+        <p class="text-xs uppercase text-gray-500">Product Images</p>
+
+        <!-- IMAGE GRID -->
+        <div class="grid grid-cols-3 gap-2">
+
+            <!-- IMAGE 1 -->
+            <div class="border aspect-[3/4] bg-gray-100 overflow-hidden">
+                <img id="preview1"
+                    src="{{ product.image1_url}}"
+                    class="w-full h-full object-cover">
+            </div>
+
+            <!-- IMAGE 2 -->
+            <div class="border aspect-[3/4] bg-gray-100 overflow-hidden">
+                {% if product.image2_url %}
+                    <img id="preview2"
+                        src="{{ product.image2_url }}"
+                        class="w-full h-full object-cover">
+                {% else %}
+                    <img id="preview2"
+                        class="hidden w-full h-full object-cover">
+                    <div id="placeholder2"
+                        class="flex items-center justify-center h-full text-xs text-gray-400">
+                        Empty
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- IMAGE 3 -->
+            <div class="border aspect-[3/4] bg-gray-100 overflow-hidden">
+                {% if product.image3_url %}
+                    <img id="preview3"
+                        src="{{ product.image3_url }}"
+                        class="w-full h-full object-cover">
+                {% else %}
+                    <img id="preview3"
+                        class="hidden w-full h-full object-cover">
+                    <div id="placeholder3"
+                        class="flex items-center justify-center h-full text-xs text-gray-400">
+                        Empty
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+
+        <!-- FILE INPUTS -->
+        <div class="space-y-3">
+            <p class="text-xs text-gray-500">Replace images (optional)</p>
+
+            <input type="file" id="image1" name="image1" accept="image/*" class="text-xs">
+            <input type="file" id="image2" name="image2" accept="image/*" class="text-xs">
+            <input type="file" id="image3" name="image3" accept="image/*" class="text-xs">
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="pt-4 space-y-5">
+            <div class="flex w-[20rem] justify-between gap-2">
+                <label for="mark_as_draft" class="w-full text-center mark_as_draft_label border px-4 py-2 text-sm hover:cursor-pointer border-gray-100
+                {% if product.is_active %} bg-gray-800 text-white {% endif %}
+                ">
+                    {% if product.is_active %}    
+                        Set as Draft
+                    {% else %}
+                        Set as Active
+                    {% endif %}
+                </label> 
+                <input type="checkbox" name="mark_as_draft" class="hidden" id="mark_as_draft"/>
+
+                <label for="mark_as_featured" class="w-full text-center mark_as_featured_label border px-4 py-2 text-sm hover:cursor-pointer border-gray-100
+                {% if product.is_featured_product %} bg-gray-800 text-white {% endif %}
+                ">
+                    {% if product.is_featured_product %}    
+                        Featured
+                    {% else %}
+                        Not Featured
+                    {% endif %}
+                </label> 
+                <input type="checkbox" name="mark_as_featured" class="hidden" id="mark_as_featured"/>
+            </div>
+
+            <button type="button"
+                class="w-full border border-red-300 delete-question-btn text-red-600 px-4 py-2 text-sm hover:bg-red-50">
+                Delete Product
+            </button>
+            <div class="w-full flex justify-center delete-question hidden">
+                <div class="border border-gray-200 p-5 gap-5 flex flex-col items-center">
+                    <span class="text-xs uppercase text-gray-500">Are You Sure?</span>
+                    <div class="flex justify-center gap-10 w-full">
+                        <button
+                            type="button"
+                            class="w-full yes text-xs uppercase text-gray-500 px-4 py-2 text-sm hover:bg-green-50"
+                        ><a href="{% url 'delete-product' product.id %}">Yes</a></button>
+                        <button
+                            type="button"
+                            class="w-full no text-xs uppercase text-gray-500 px-4 py-2 text-sm hover:bg-red-50"
+                        >No</button>
+                    </div>
+                </div>
+            </div>
+            {% for message in messages %}
+                <p class="text-red text-center text-xs text-gray-500">{{message}}</p>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="mt-10 w-full flex justify-center lg:col-span-3">
+        <button type="submit"
+            class="bg-black text-white px-10 py-3 text-sm uppercase tracking-wider hover:bg-gray-800">
+            Update Product
+        </button>
+    </div>
+
+</form>
+</div>
+{% block scripts %}
+  <script type="module" src="{% static '/app/js/edit_product.js' %}"></script>
+{% endblock scripts %}
+{% endblock body %}

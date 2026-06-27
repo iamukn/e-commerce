@@ -10,67 +10,78 @@
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {% for item in collections %}
-        <a href="{% url 'details' item.id %}">
-            <div
-                class="group cursor-pointer border border-border bg-white
-                    transition-all duration-500 hover:border-neutral-400 w-[22rem]"
-            >
-                <!-- IMAGE -->
-                <div class="relative aspect-[4/5] overflow-hidden bg-secondary">
-
-                    <img
-                        src="{{ item.image }}"
-                        alt="Photo of {{ item.name }} dress"
-                        loading="lazy"
-                        class="w-full h-full object-cover object-center
-                            transition-all duration-700 ease-out
-                            group-hover:scale-[1.03]
-                            {% if item.quantity == 0 %}opacity-60{% endif %}"
-                    />
-
-                    {% if item.quantity == 0 %}
+            {% if item.is_active %}
+                <a href="{% url 'details' item.id %}">
                     <div
-                        class="absolute inset-0 bg-black/25 backdrop-blur-[1px]
-                            flex items-center justify-center"
+                        class="group cursor-pointer border border-border bg-white
+                            transition-all duration-500 hover:border-neutral-400 w-[22rem]"
                     >
-                        <span
-                            class="border border-white/80 px-5 py-2
-                                text-xs sm:text-sm tracking-[0.25em]
-                                uppercase text-white font-medium"
-                        >
-                            Sold Out
-                        </span>
+                        <!-- IMAGE -->
+                        <div class="relative aspect-[4/5] overflow-hidden bg-secondary">
+
+                            <img
+                                src="{{ item.image1_url }}"
+                                alt="Photo of {{ item.name }} dress"
+                                loading="lazy"
+                                class="w-full h-full object-cover object-center
+                                    transition-all duration-700 ease-out
+                                    group-hover:scale-[1.03]
+                                    {% if item.quantity == 0 %}opacity-60{% endif %}"
+                            />
+
+                            {% if item.quantity == 0 %}
+                            <div
+                                class="absolute inset-0 bg-black/25 backdrop-blur-[1px]
+                                    flex items-center justify-center"
+                            >
+                                <span
+                                    class="border border-white/80 px-5 py-2
+                                        text-xs sm:text-sm tracking-[0.25em]
+                                        uppercase text-white font-medium"
+                                >
+                                    Sold Out
+                                </span>
+                            </div>
+                            {% endif %}
+
+                        </div>
+
+                        <!-- PRODUCT INFO -->
+                        <div class="px-6 py-5">
+                            <div class="flex justify-between items-start gap-4">
+
+                                <h3
+                                    class="text-xs sm:text-sm tracking-[0.12em]
+                                        uppercase font-normal
+                                        transition-opacity duration-300
+                                        group-hover:opacity-70"
+                                >
+                                    {{ item.name }}
+                                </h3>
+
+                                <span
+                                    class="text-xs sm:text-sm text-neutral-500
+                                        whitespace-nowrap"
+                                >
+                                    ₦{{ item.formatted_price }}
+                                </span>
+
+                            </div>
+                        </div>
                     </div>
-                    {% endif %}
+                </a>
+            {% endif %}
 
-                </div>
-
-                <!-- PRODUCT INFO -->
-                <div class="px-6 py-5">
-                    <div class="flex justify-between items-start gap-4">
-
-                        <h3
-                            class="text-xs sm:text-sm tracking-[0.12em]
-                                uppercase font-normal
-                                transition-opacity duration-300
-                                group-hover:opacity-70"
-                        >
-                            {{ item.name }}
-                        </h3>
-
-                        <span
-                            class="text-xs sm:text-sm text-neutral-500
-                                whitespace-nowrap"
-                        >
-                            ₦{{ item.formatted_price }}
-                        </span>
-
-                    </div>
-                </div>
-            </div>
-        </a>
         {% endfor %}
       </div>
+      {% for item in collections %}
+        {% if not item.is_active %}
+            <p class="text-lg sm:text-sm tracking-[0.12em]
+                uppercase font-normal
+                transition-opacity duration-300
+                group-hover:opacity-70 text-center w-full">No Item Available!</p>
+        {% endif %}
+      {% endfor %}
     </section>
     </main>
 {% endblock body %}
